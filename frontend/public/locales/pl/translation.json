@@ -1,0 +1,7 @@
+{
+  "welcome": "Witamy na stronie głównej",
+  "description": "To jest prosta strona React z funkcją przełączania języka.",
+  "switchToPolish": "Przełącz na angielski",
+  "dashboard": "Panel",
+  "dashboardDescription": "To jest strona panelu."
+}

@@ -1,0 +1,7 @@
+{
+  "welcome": "Welcome to the Index Page",
+  "description": "This is a simple React page with language switching functionality.",
+  "switchToPolish": "Switch to Polish",
+  "dashboard": "Dashboard",
+  "dashboardDescription": "This is the dashboard page."
+}

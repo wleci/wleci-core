@@ -1,0 +1,4 @@
+# Section Application
+process.env.APP_NAME="WleciCore"
+process.env.APP_VERSION="0.0.1"
+process.env.APP_MODE="development" # production mode or development mode
