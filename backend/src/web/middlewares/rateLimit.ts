@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit, { Options } from "express-rate-limit";
 import { Request, Response } from "express";
 
 /**
@@ -23,7 +23,7 @@ class RateLimitMiddleware {
             },
             standardHeaders: true,
             legacyHeaders: false,
-            handler: (req: Request, res: Response) => {
+            handler: (_req: Request, res: Response) => {
                 res.status(429).json({
                     error: 'Rate limit exceeded',
                     message: 'Too many requests from this IP, please try again later.',
@@ -68,7 +68,7 @@ class RateLimitMiddleware {
             legacyHeaders: false,
             keyGenerator: (req: Request) => {
                 // Use API key or IP for rate limiting
-                return req.headers['x-api-key'] as string || req.ip;
+                return (req.headers['x-api-key'] as string) || req.ip || 'unknown';
             }
         });
     }
@@ -92,7 +92,7 @@ class RateLimitMiddleware {
             keyGenerator: (req: Request) => {
                 // Rate limit by IP and username if provided
                 const username = req.body?.username || req.body?.email;
-                return username ? `${req.ip}-${username}` : req.ip;
+                return username ? `${req.ip || 'unknown'}-${username}` : (req.ip || 'unknown');
             }
         });
     }
@@ -120,7 +120,7 @@ class RateLimitMiddleware {
      * @param options - Custom rate limit options
      * @returns Custom rate limit middleware
      */
-    public static custom(options: Partial<rateLimit.Options>) {
+    public static custom(options: Partial<Options>) {
         return rateLimit({
             windowMs: 15 * 60 * 1000,
             max: 100,

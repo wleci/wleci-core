@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv";
 configDotenv(); // Load environment variables from the .env file
 
-import type { Config } from "@/types/config/config";
+import type { Config } from "../types/config/config";
 
 const config: Config = {
 

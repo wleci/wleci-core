@@ -13,7 +13,7 @@ class MorganMiddleware {
      */
     public static development() {
         return morgan('dev', {
-            skip: (req: Request, res: Response) => {
+            skip: (req: Request, _res: Response) => {
                 // Skip logging for health checks and static assets
                 return req.url === '/health' ||
                     req.url === '/favicon.ico' ||
@@ -28,7 +28,7 @@ class MorganMiddleware {
      */
     public static production() {
         return morgan('combined', {
-            skip: (req: Request, res: Response) => {
+            skip: (_req: Request, res: Response) => {
                 // Skip successful requests in production to reduce log noise
                 return res.statusCode < 400;
             }
@@ -43,7 +43,7 @@ class MorganMiddleware {
         const customFormat = ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :response-time ms';
 
         return morgan(customFormat, {
-            skip: (req: Request, res: Response) => {
+            skip: (req: Request, _res: Response) => {
                 return req.url === '/health';
             }
         });
@@ -57,7 +57,7 @@ class MorganMiddleware {
         const apiFormat = ':method :url :status :response-time ms - :res[content-length]';
 
         return morgan(apiFormat, {
-            skip: (req: Request, res: Response) => {
+            skip: (req: Request, _res: Response) => {
                 // Log all API requests but skip health checks
                 return req.url === '/health' || req.url === '/api/health';
             }
@@ -91,7 +91,7 @@ class MorganMiddleware {
      */
     public static errorsOnly() {
         return morgan('combined', {
-            skip: (req: Request, res: Response) => {
+            skip: (_req: Request, res: Response) => {
                 return res.statusCode < 400;
             }
         });

@@ -7,3 +7,4 @@ export { default as SessionMiddleware } from "./session";
 export { default as CorsMiddleware } from "./cors";
 export { default as RateLimitMiddleware } from "./rateLimit";
 export { default as CookieParserMiddleware } from "./cookieParser";
+export { default as StaticMiddleware } from "./static";

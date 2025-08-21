@@ -1,4 +1,4 @@
-import MessageLogger from "@/cli/messageLogger/messageLogger";
+import MessageLogger from "../messageLogger/messageLogger";
 import path from "path";
 import fs from "fs";
 import os from "os";
@@ -76,8 +76,8 @@ async function showIntro() {
   try {
     const logo = await fs.promises.readFile(loadLogoTxt, "utf-8");
 
-    // Clear screen + small top margin
-    process.stdout.write("\x1Bc\n\n");
+    // Add some spacing without clearing
+    console.log("\n\n");
 
     // Show logo (centered, blue)
     const logoLines = logo
@@ -121,4 +121,5 @@ async function showIntro() {
   }
 }
 
+// Show menu immediately
 showIntro();

@@ -1,69 +1,86 @@
-import express from "express";
-import MessageLogger from "@/cli/messageLogger/messageLogger";
+import express from 'express';
 import {
     HelmetMiddleware,
     MorganMiddleware,
     CompressionMiddleware,
     BodyParserMiddleware,
-    SessionMiddleware,
     CorsMiddleware,
     RateLimitMiddleware,
     CookieParserMiddleware
-} from "./middlewares";
+} from './middlewares';
+import router from './router/router';
+import MessageLogger from '../cli/messageLogger/messageLogger';
 
+/**
+ * Web server configuration for serving React build
+ * Handles static files, locales, and SPA routing
+ */
 class WebServer {
-
+    private app: express.Application;
     private logger: MessageLogger;
 
     constructor() {
-        const app = express();
+        this.app = express();
         this.logger = new MessageLogger("WebServer");
+        this.setupMiddlewares();
     }
 
-    private loadMiddlewares(app: express.Application) {
-        // 1. Security headers (should be first)
-        app.use(HelmetMiddleware.development());
+    /**
+     * Setup middlewares for serving React build
+     */
+    private setupMiddlewares(): void {
+        // Security middleware
+        this.app.use(HelmetMiddleware.basic());
 
-        // 2. CORS (before other middlewares that might send responses)
-        app.use(CorsMiddleware.development());
+        // Logging middleware
+        this.app.use(MorganMiddleware.development());
 
-        // 3. Request logging
-        app.use(MorganMiddleware.development());
+        // Compression middleware
+        this.app.use(CompressionMiddleware.configure());
 
-        // 4. Rate limiting (early to prevent abuse)
-        app.use(RateLimitMiddleware.development());
+        // CORS middleware
+        this.app.use(CorsMiddleware.development());
 
-        // 5. Cookie parsing
-        app.use(CookieParserMiddleware.basic());
+        // Rate limiting middleware
+        this.app.use(RateLimitMiddleware.development());
 
-        // 6. Session handling (after cookie parser)
-        app.use(SessionMiddleware.development(process.env.SESSION_SECRET || "dev-secret-key-change-in-production-please"));
+        // Body parsing middleware
+        this.app.use(BodyParserMiddleware.json());
+        this.app.use(BodyParserMiddleware.urlencoded());
 
-        // 7. Compression (before body parsing for better performance)
-        app.use(CompressionMiddleware.configure());
+        // Cookie parsing middleware
+        this.app.use(CookieParserMiddleware.basic());
 
-        // 8. Body parsing (should be after compression)
-        app.use(BodyParserMiddleware.json());
-        app.use(BodyParserMiddleware.urlencoded());
+        // Serve static files for assets and locales
+        const StaticMiddleware = require('./middlewares/static').default;
+
+        // Serve React build directory (includes assets and other files)
+        this.app.use(StaticMiddleware.forReactBuild('../../build-frontend'));
+
+        // Use Express router for all page routing
+        this.app.use('/', router);
     }
 
-    private loadRoutes(app: express.Application) {
-        app.get("/", (req, res) => {
-            res.send("Hello Worlds!");
-        });
+    /**
+     * Get the Express application instance
+     */
+    getApp(): express.Application {
+        return this.app;
     }
 
-    public startWebServer() {
-        const app = express();
-        this.loadMiddlewares(app);
-        this.loadRoutes(app);
-        app.listen(3000, () => {
-            setTimeout(() => {
-                this.logger.info("Server is running on http://localhost:3000");
-            }, 100);
-        });
+    /**
+     * Start the web server
+     * @param port - Port to listen on
+     * @param callback - Optional callback when server starts
+     */
+    listen(port: number = 3000, callback?: () => void): void {
+        this.app.listen(port, callback || (() => {
+            this.logger.info(`Access your app at: http://localhost:${port}`);
+        }));
     }
-
 }
-
-export default WebServer;
+// Auto-start web server with delay to show after menu
+setTimeout(() => {
+    const webServer = new WebServer();
+    webServer.listen();
+}, 100); // Small delay to ensure menu shows first

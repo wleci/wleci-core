@@ -119,7 +119,7 @@ class SessionMiddleware {
                 sameSite: 'strict'
             },
             name: 'api-session',
-            genid: (req: Request) => {
+            genid: (_req: Request) => {
                 // Generate custom session ID
                 return `api-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
             }
