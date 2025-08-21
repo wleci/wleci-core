@@ -1,36 +1,69 @@
 import express from 'express';
-import path from 'path';
+
+// ========================================================================================
+// CONTROLLERS IMPORTS
+// ========================================================================================
+
+// Public Controllers
+import controllerPublicIndex from '../controllers/public';
+import controllerPublicRobots from '../controllers/public/roobots';
+import controllerPublicSitemap from '../controllers/public/sitemap';
+
+// Auth Controllers
+import controllerAuthLogin from '../controllers/auth/login';
+import controllerAuthRegister from '../controllers/auth/register';
+
+// Dashboard Controllers
+
+// API Controllers
+
+
+// Error Controllers
+import controller404 from '../controllers/errors/404';
+
+// ========================================================================================
+// ROUTER INITIALIZATION
+// ========================================================================================
 
 const router = express.Router();
 
-// Path to React build
-const buildPath = path.resolve(__dirname, '../../../../build-frontend');
+// ========================================================================================
+// PUBLIC ROUTES (React SSR)
+// ========================================================================================
 
-// Main route - serve React app
-router.get('/', (_req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
-});
+router.get('/', controllerPublicIndex);
+router.get('/404', controllerPublicIndex); // Serve React for 404 page
+router.get('/robots.txt', controllerPublicRobots);
+router.get('/sitemap.xml', controllerPublicSitemap);
 
-// 404 handler - must be last
+// ========================================================================================
+// AUTH ROUTES
+// ========================================================================================
+
+router.get('/auth/login', controllerAuthLogin);
+router.post('/auth/login', controllerAuthLogin); // Handle login form submission
+router.get('/auth/register', controllerAuthRegister);
+router.post('/auth/register', controllerAuthRegister); // Handle register form submission
+
+// ========================================================================================
+// 404 HANDLER - Must be last route
+// ========================================================================================
+
+// Catch all unmatched routes and return 404
+// But skip static assets - let them be handled by static middleware
 router.use((req, res, next) => {
-    // For API routes, return JSON 404
-    if (req.path.startsWith('/api')) {
-        res.status(404).json({
-            error: 'API endpoint not found',
-            path: req.path,
-            method: req.method
-        });
-        return;
-    }
-
-    // For file requests with extensions, let static middleware handle it
-    if (req.path.includes('.')) {
+    // Skip 404 handling for static assets (let static middleware handle them)
+    if (req.path.startsWith('/assets/') ||
+        req.path.endsWith('.css') ||
+        req.path.endsWith('.js') ||
+        req.path.endsWith('.ico') ||
+        req.path.endsWith('.png') ||
+        req.path.endsWith('.jpg') ||
+        req.path.endsWith('.svg')) {
         return next();
     }
 
-    // For all other routes, serve React app (React Router will handle 404)
-    res.sendFile(path.join(buildPath, 'index.html'));
+    controller404(req, res);
 });
-
 
 export default router;

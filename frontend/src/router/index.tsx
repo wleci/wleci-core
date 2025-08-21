@@ -46,6 +46,8 @@ const appRouter = new AppRouter();
 const router = appRouter
   .route("/", IndexPage)
   .lazy("/dashboard", () => import("../pages/dashboard/index"))
+  .lazy("/auth/login", () => import("../pages/auth/Login"))
+  .lazy("/auth/register", () => import("../pages/auth/Register"))
   .route("/404", NotFound)
   .route("/401", Unauthorized)
   .route("/403", Forbidden)

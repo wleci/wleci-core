@@ -6,7 +6,8 @@ import {
     BodyParserMiddleware,
     CorsMiddleware,
     RateLimitMiddleware,
-    CookieParserMiddleware
+    CookieParserMiddleware,
+    StaticMiddleware
 } from './middlewares';
 import router from './router/router';
 import MessageLogger from '../cli/messageLogger/messageLogger';
@@ -51,11 +52,8 @@ class WebServer {
         // Cookie parsing middleware
         this.app.use(CookieParserMiddleware.basic());
 
-        // Serve static files for assets and locales
-        const StaticMiddleware = require('./middlewares/static').default;
-
-        // Serve React build directory (includes assets and other files)
-        this.app.use(StaticMiddleware.forReactBuild('../../build-frontend'));
+        // Serve static files for React build (assets, CSS, JS, etc.)
+        this.app.use(StaticMiddleware.forReactBuild('../../../../build-frontend'));
 
         // Use Express router for all page routing
         this.app.use('/', router);
@@ -73,7 +71,7 @@ class WebServer {
      * @param port - Port to listen on
      * @param callback - Optional callback when server starts
      */
-    listen(port: number = 3000, callback?: () => void): void {
+    listen(port: number = 3001, callback?: () => void): void {
         this.app.listen(port, callback || (() => {
             this.logger.info(`Access your app at: http://localhost:${port}`);
         }));
