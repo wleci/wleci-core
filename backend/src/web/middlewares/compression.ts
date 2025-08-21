@@ -9,18 +9,23 @@ class CompressionMiddleware {
 
     /**
      * Configure compression middleware
-     * @param level - Compression level (0-9)
-     * @param threshold - Minimum response size to compress
+     * @param level - Compression level (optional, uses config if not provided)
+     * @param threshold - Minimum response size to compress (optional, uses config if not provided)
      * @returns Compression middleware
      */
-    public static configure(level: number = 6, threshold: number = 1024) {
+    public static configure(level?: number, threshold?: number) {
+        const config = globalThis.CONFIG?.webServer?.compression;
+        if (!config) {
+            throw new Error("Compression configuration not found");
+        }
+
         return compression({
-            level,
-            threshold,
+            level: level || config.level,
+            threshold: threshold || config.threshold,
             filter: this.shouldCompress,
-            chunkSize: 1024,
-            windowBits: 15,
-            memLevel: 8
+            chunkSize: config.chunkSize,
+            windowBits: config.windowBits,
+            memLevel: config.memLevel
         });
     }
 

@@ -7,6 +7,27 @@ import helmet from "helmet";
 class HelmetMiddleware {
 
     /**
+     * Configure helmet middleware using config
+     * @returns Helmet middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.helmet;
+        const appMode = globalThis.CONFIG?.application?.mode;
+        if (!config) {
+            throw new Error("Helmet configuration not found");
+        }
+
+        switch (appMode) {
+            case 'development':
+                return this.development();
+            case 'production':
+                return this.production(config.enableHsts, config.hstsMaxAge);
+            default:
+                return this.development();
+        }
+    }
+
+    /**
      * Configure basic helmet security middleware
      * @returns Helmet middleware with default security settings
      */
@@ -48,9 +69,11 @@ class HelmetMiddleware {
 
     /**
      * Configure helmet for production environment
+     * @param enableHsts - Whether to enable HSTS
+     * @param hstsMaxAge - HSTS max age in seconds
      * @returns Helmet middleware with strict security settings
      */
-    public static production() {
+    public static production(enableHsts: boolean = true, hstsMaxAge: number = 31536000) {
         return helmet({
             contentSecurityPolicy: {
                 directives: {
@@ -66,11 +89,11 @@ class HelmetMiddleware {
                     upgradeInsecureRequests: []
                 }
             },
-            hsts: {
-                maxAge: 31536000,
+            hsts: enableHsts ? {
+                maxAge: hstsMaxAge,
                 includeSubDomains: true,
                 preload: true
-            },
+            } : false,
             noSniff: true,
             frameguard: { action: 'deny' },
             xssFilter: true

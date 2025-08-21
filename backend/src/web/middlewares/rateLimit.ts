@@ -8,15 +8,38 @@ import { Request, Response } from "express";
 class RateLimitMiddleware {
 
     /**
+     * Configure rate limiting middleware using config
+     * @returns Rate limit middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.rateLimit;
+        const appMode = globalThis.CONFIG?.application?.mode;
+        if (!config) {
+            throw new Error("Rate limit configuration not found");
+        }
+
+        switch (appMode) {
+            case 'development':
+                return this.development();
+            case 'production':
+                return this.basic(config.windowMs, config.max, config.skipSuccessfulRequests);
+            default:
+                return this.development();
+        }
+    }
+
+    /**
      * Configure basic rate limiting
      * @param windowMs - Time window in milliseconds
      * @param max - Maximum requests per window
+     * @param skipSuccessfulRequests - Whether to skip successful requests
      * @returns Rate limit middleware
      */
-    public static basic(windowMs: number = 15 * 60 * 1000, max: number = 100) {
+    public static basic(windowMs: number = 15 * 60 * 1000, max: number = 100, skipSuccessfulRequests: boolean = false) {
         return rateLimit({
             windowMs,
             max,
+            skipSuccessfulRequests,
             message: {
                 error: 'Too many requests from this IP, please try again later.',
                 retryAfter: Math.ceil(windowMs / 1000)

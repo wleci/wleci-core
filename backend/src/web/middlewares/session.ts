@@ -8,6 +8,31 @@ import { Request } from "express";
 class SessionMiddleware {
 
     /**
+     * Configure session middleware using config
+     * @returns Session middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.session;
+        const appMode = globalThis.CONFIG?.application?.mode;
+        if (!config) {
+            throw new Error("Session configuration not found");
+        }
+
+        if (!config.secret) {
+            throw new Error("Session secret is required");
+        }
+
+        switch (appMode) {
+            case 'development':
+                return this.development(config.secret, config.maxAge);
+            case 'production':
+                return this.production(config.secret, config.domain, config.maxAge, config.secure);
+            default:
+                return this.development(config.secret, config.maxAge);
+        }
+    }
+
+    /**
      * Configure basic session middleware
      * @param secret - Session secret key
      * @returns Session middleware with basic configuration
@@ -33,9 +58,10 @@ class SessionMiddleware {
     /**
      * Configure session middleware for development
      * @param secret - Session secret key
+     * @param maxAge - Session max age in milliseconds
      * @returns Session middleware with development settings
      */
-    public static development(secret: string) {
+    public static development(secret: string, maxAge: number = 7 * 24 * 60 * 60 * 1000) {
         return session({
             secret,
             resave: false,
@@ -43,7 +69,7 @@ class SessionMiddleware {
             cookie: {
                 secure: false,
                 httpOnly: true,
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+                maxAge
             },
             name: 'dev-session'
         });
@@ -53,17 +79,19 @@ class SessionMiddleware {
      * Configure session middleware for production
      * @param secret - Session secret key
      * @param domain - Cookie domain
+     * @param maxAge - Session max age in milliseconds
+     * @param secure - Whether to use secure cookies
      * @returns Session middleware with production settings
      */
-    public static production(secret: string, domain?: string) {
+    public static production(secret: string, domain?: string, maxAge: number = 2 * 60 * 60 * 1000, secure: boolean = true) {
         return session({
             secret,
             resave: false,
             saveUninitialized: false,
             cookie: {
-                secure: true, // Requires HTTPS
+                secure, // Requires HTTPS
                 httpOnly: true,
-                maxAge: 2 * 60 * 60 * 1000, // 2 hours
+                maxAge,
                 domain,
                 sameSite: 'strict'
             },

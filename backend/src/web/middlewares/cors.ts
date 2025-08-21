@@ -7,6 +7,27 @@ import cors from "cors";
 class CorsMiddleware {
 
     /**
+     * Configure CORS middleware using config
+     * @returns CORS middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.cors;
+        const appMode = globalThis.CONFIG?.application?.mode;
+        if (!config) {
+            throw new Error("CORS configuration not found");
+        }
+
+        switch (appMode) {
+            case 'development':
+                return this.development();
+            case 'production':
+                return this.production(config.allowedOrigins);
+            default:
+                return this.development();
+        }
+    }
+
+    /**
      * Configure CORS middleware for development
      * @returns CORS middleware with permissive settings
      */

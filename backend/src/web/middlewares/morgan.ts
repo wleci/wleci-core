@@ -8,29 +8,63 @@ import { Request, Response } from "express";
 class MorganMiddleware {
 
     /**
+     * Configure Morgan middleware using config
+     * @returns Morgan middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.morgan;
+        const appMode = globalThis.CONFIG?.application?.mode;
+        if (!config) {
+            throw new Error("Morgan configuration not found");
+        }
+
+        if (config.logErrorsOnly) {
+            return this.errorsOnly();
+        }
+
+        switch (appMode) {
+            case 'development':
+                return this.development(config.skipHealthChecks);
+            case 'production':
+                return this.production(config.skipHealthChecks);
+            default:
+                return this.development(config.skipHealthChecks);
+        }
+    }
+
+    /**
      * Configure Morgan for development environment
+     * @param skipHealthChecks - Whether to skip health check logging
      * @returns Morgan middleware with detailed colored output
      */
-    public static development() {
+    public static development(skipHealthChecks: boolean = true) {
         return morgan('dev', {
             skip: (req: Request, _res: Response) => {
-                // Skip logging for health checks and static assets
-                return req.url === '/health' ||
-                    req.url === '/favicon.ico' ||
-                    req.url.startsWith('/static/');
+                if (skipHealthChecks) {
+                    return req.url === '/health' ||
+                        req.url === '/favicon.ico' ||
+                        req.url.startsWith('/static/');
+                }
+                return false;
             }
         });
     }
 
     /**
      * Configure Morgan for production environment
+     * @param skipHealthChecks - Whether to skip health check logging
      * @returns Morgan middleware with combined log format
      */
-    public static production() {
+    public static production(skipHealthChecks: boolean = true) {
         return morgan('combined', {
-            skip: (_req: Request, res: Response) => {
+            skip: (req: Request, res: Response) => {
                 // Skip successful requests in production to reduce log noise
-                return res.statusCode < 400;
+                if (res.statusCode < 400) return true;
+
+                if (skipHealthChecks) {
+                    return req.url === '/health' || req.url === '/api/health';
+                }
+                return false;
             }
         });
     }

@@ -8,41 +8,53 @@ class BodyParserMiddleware {
 
     /**
      * Configure JSON body parser
-     * @param limit - Maximum request body size
+     * @param limit - Maximum request body size (optional, uses config if not provided)
      * @returns Express middleware
      */
-    public static json(limit: string = "1mb"): express.RequestHandler {
+    public static json(limit?: string): express.RequestHandler {
+        const config = globalThis.CONFIG?.webServer?.bodyParser?.json;
+        if (!config) {
+            throw new Error("Body parser configuration not found");
+        }
         return express.json({
-            limit,
-            strict: true,
-            type: "application/json"
+            limit: limit || config.limit,
+            strict: config.strict,
+            type: config.type
         });
     }
 
     /**
      * Configure URL-encoded body parser
-     * @param limit - Maximum request body size
-     * @param extended - Use extended parsing
+     * @param limit - Maximum request body size (optional, uses config if not provided)
+     * @param extended - Use extended parsing (optional, uses config if not provided)
      * @returns Express middleware
      */
-    public static urlencoded(limit: string = "1mb", extended: boolean = true): express.RequestHandler {
+    public static urlencoded(limit?: string, extended?: boolean): express.RequestHandler {
+        const config = globalThis.CONFIG?.webServer?.bodyParser?.urlencoded;
+        if (!config) {
+            throw new Error("Body parser configuration not found");
+        }
         return express.urlencoded({
-            limit,
-            extended,
-            parameterLimit: 1000
+            limit: limit || config.limit,
+            extended: extended !== undefined ? extended : config.extended,
+            parameterLimit: config.parameterLimit
         });
     }
 
     /**
      * Configure raw body parser for specific content types
-     * @param type - Content type to parse
-     * @param limit - Maximum request body size
+     * @param type - Content type to parse (optional, uses config if not provided)
+     * @param limit - Maximum request body size (optional, uses config if not provided)
      * @returns Express middleware
      */
-    public static raw(type: string = "application/octet-stream", limit: string = "1mb"): express.RequestHandler {
+    public static raw(type?: string, limit?: string): express.RequestHandler {
+        const config = globalThis.CONFIG?.webServer?.bodyParser?.raw;
+        if (!config) {
+            throw new Error("Body parser configuration not found");
+        }
         return express.raw({
-            type,
-            limit
+            type: type || config.type,
+            limit: limit || config.limit
         });
     }
 }

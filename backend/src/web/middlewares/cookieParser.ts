@@ -7,12 +7,29 @@ import cookieParser from "cookie-parser";
 class CookieParserMiddleware {
 
     /**
+     * Configure cookie parser middleware using config
+     * @returns Cookie parser middleware
+     */
+    public static configure() {
+        const config = globalThis.CONFIG?.webServer?.cookieParser;
+        if (!config) {
+            throw new Error("Cookie parser configuration not found");
+        }
+
+        if (config.enableSigning && config.secret) {
+            return this.withSigning(config.secret);
+        }
+
+        return this.basic();
+    }
+
+    /**
      * Configure cookie parser middleware
      * @param secret - Secret key for signed cookies
      * @param options - Cookie parser options
      * @returns Cookie parser middleware
      */
-    public static configure(secret?: string, options?: cookieParser.CookieParseOptions) {
+    public static configureWithOptions(secret?: string, options?: cookieParser.CookieParseOptions) {
         const defaultOptions: cookieParser.CookieParseOptions = {
             decode: decodeURIComponent,
             ...options
