@@ -101,29 +101,6 @@ class HelmetMiddleware {
     }
 
     /**
-     * Configure helmet for API endpoints
-     * @returns Helmet middleware optimized for API usage
-     */
-    public static forApi() {
-        return helmet({
-            contentSecurityPolicy: {
-                directives: {
-                    defaultSrc: ["'none'"],
-                    connectSrc: ["'self'"]
-                }
-            },
-            crossOriginEmbedderPolicy: false,
-            hsts: {
-                maxAge: 31536000,
-                includeSubDomains: true
-            },
-            noSniff: true,
-            frameguard: { action: 'deny' },
-            xssFilter: true
-        });
-    }
-
-    /**
      * Configure custom helmet middleware
      * @param options - Custom helmet options
      * @returns Helmet middleware with custom settings

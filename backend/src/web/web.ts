@@ -30,27 +30,27 @@ class WebServer {
      * Setup middlewares for serving React build
      */
     private setupMiddlewares(): void {
-        // Security middleware
-        this.app.use(HelmetMiddleware.basic());
+        // Security middleware - automatically uses development or production based on APP_MODE
+        this.app.use(HelmetMiddleware.configure());
 
-        // Logging middleware
-        this.app.use(MorganMiddleware.development());
+        // Logging middleware - automatically uses development or production based on APP_MODE
+        this.app.use(MorganMiddleware.configure());
 
-        // Compression middleware
+        // Compression middleware - uses config settings
         this.app.use(CompressionMiddleware.configure());
 
-        // CORS middleware
-        this.app.use(CorsMiddleware.development());
+        // CORS middleware - automatically uses development or production based on APP_MODE
+        this.app.use(CorsMiddleware.configure());
 
-        // Rate limiting middleware
-        this.app.use(RateLimitMiddleware.development());
+        // Rate limiting middleware - automatically uses development or production based on APP_MODE
+        this.app.use(RateLimitMiddleware.configure());
 
-        // Body parsing middleware
+        // Body parsing middleware - uses config settings
         this.app.use(BodyParserMiddleware.json());
         this.app.use(BodyParserMiddleware.urlencoded());
 
-        // Cookie parsing middleware
-        this.app.use(CookieParserMiddleware.basic());
+        // Cookie parsing middleware - uses config settings
+        this.app.use(CookieParserMiddleware.configure());
 
         // Serve static files for React build (assets, CSS, JS, etc.)
         this.app.use(StaticMiddleware.forReactBuild('../../../../build-frontend'));
