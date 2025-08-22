@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -37,7 +36,7 @@ export default function NotFound() {
               opacity: [0.1, 0.3, 0.1],
             }}
             transition={{
-              ration: 8 + Math.random() * 4,
+              duration: 8 + Math.random() * 4,
               repeat: Infinity,
               delay: Math.random() * 3,
             }}
