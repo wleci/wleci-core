@@ -1,7 +1,130 @@
 {
-  "welcome": "Welcome to the Index Page",
-  "description": "This is a simple React page with language switching functionality.",
-  "switchToPolish": "Switch to Polish",
-  "dashboard": "Dashboard",
-  "dashboardDescription": "This is the dashboard page."
+  "public_index": {
+    "badge": "⚡ Next-Gen Backend Platform",
+    "github_stars": "⭐ 2,847",
+    "title_the": "The",
+    "title_future": "Future",
+    "title_of_backend": "of Backend",
+    "description": "Build modern applications with wleci-core. A powerful, developer-first backend platform that scales with your needs. Real-time databases, authentication, and cloud functions - all in one place.",
+    "start_building": "Start Building Free",
+    "view_docs": "View Documentation",
+    "features": {
+      "postgresql": {
+        "label": "PostgreSQL",
+        "desc": "Powerful DB"
+      },
+      "realtime": {
+        "label": "Real-time",
+        "desc": "Live Updates"
+      },
+      "secure": {
+        "label": "Secure",
+        "desc": "Enterprise Grade"
+      }
+    }
+  },
+  "navbar": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "docs": "Docs",
+    "community": "Community",
+    "sign_in": "Sign In",
+    "get_started": "Get Started"
+  },
+  "loading": {
+    "title": "Loading wleci-core",
+    "subtitle": "Preparing your backend platform..."
+  },
+  "register": {
+    "welcome_title": "Join the",
+    "welcome_subtitle": "Future of Backend",
+    "welcome_description": "Thousands of developers are already building with wleci-core. Join the community creating the next generation of applications.",
+    "form_title": "Create your account",
+    "form_subtitle": "Start building for free today",
+    "name_label": "Username",
+    "name_placeholder": "johndoe",
+    "email_label": "Email address",
+    "email_placeholder": "your@email.com",
+    "password_label": "Password",
+    "password_placeholder": "Create a secure password",
+    "confirm_password_label": "Confirm password",
+    "confirm_password_placeholder": "Confirm your password",
+    "submit_button": "Create account",
+    "login_text": "Already have an account?",
+    "login_link": "Sign in",
+    "features": {
+      "instant_setup": "Instant setup",
+      "realtime_db": "Real-time database",
+      "auth_ready": "Auth ready",
+      "cloud_functions": "Cloud functions"
+    },
+    "oauth": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub",
+      "divider": "or"
+    },
+    "terms_checkbox": "I accept the",
+    "terms_link": "Terms of Service",
+    "terms_and": "and",
+    "privacy_link": "Privacy Policy"
+  },
+  "unauthorized": {
+    "title": "401",
+    "heading": "Unauthorized",
+    "description": "You need to sign in to access this page.",
+    "login_button": "Sign In",
+    "home_link": "Back to Home"
+  },
+  "forbidden": {
+    "title": "403",
+    "heading": "Access Forbidden",
+    "description": "You don't have permission to view this page. Contact your administrator if you think this is an error.",
+    "dashboard_button": "Go to Dashboard",
+    "home_link": "Back to Home"
+  },
+  "not_found": {
+    "title": "404",
+    "heading": "Page Not Found",
+    "description": "Sorry, the page you're looking for doesn't exist or has been moved.",
+    "home_button": "Back to Home",
+    "back_button": "Go Back"
+  },
+  "internal_server_error": {
+    "title": "500",
+    "heading": "Server Error",
+    "description": "An unexpected server error occurred. Our team has been notified and is working to resolve the issue.",
+    "retry_button": "Try Again",
+    "home_button": "Back to Home",
+    "contact_info": "If the problem persists, please contact our support team"
+  },
+  "maintenance": {
+    "heading": "Maintenance Mode",
+    "description": "We're currently performing maintenance to improve our services. The service will be unavailable for a short time.",
+    "estimated_time": "Estimated completion time:",
+    "duration": "approximately 30 minutes",
+    "check_again": "Check Again",
+    "apology": "We apologize for the inconvenience",
+    "contact_text": "For urgent matters, please contact us:",
+    "contact_email": "support@wleci-core.com"
+  },
+  "login": {
+    "welcome_title": "Welcome back to",
+    "welcome_subtitle": "wleci-core",
+    "welcome_description": "Sign in to your account and continue building amazing applications with the most powerful backend platform.",
+    "form_title": "Sign in",
+    "form_subtitle": "Enter your credentials to continue",
+    "email_label": "Email address",
+    "email_placeholder": "your@email.com",
+    "password_label": "Password",
+    "password_placeholder": "Enter your password",
+    "forgot_password": "Forgot password?",
+    "submit_button": "Sign in",
+    "register_text": "Don't have an account?",
+    "register_link": "Sign up",
+    "oauth": {
+      "google": "Sign in with Google",
+      "github": "Sign in with GitHub",
+      "divider": "or"
+    }
+  }
 }

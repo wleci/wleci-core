@@ -1,7 +1,130 @@
 {
-  "welcome": "Witamy na stronie głównej",
-  "description": "To jest prosta strona React z funkcją przełączania języka.",
-  "switchToPolish": "Przełącz na angielski",
-  "dashboard": "Panel",
-  "dashboardDescription": "To jest strona panelu."
+  "public_index": {
+    "badge": "⚡ Platforma Backend Nowej Generacji",
+    "github_stars": "⭐ 2,847",
+    "title_the": "Przyszłość",
+    "title_future": "Rozwoju",
+    "title_of_backend": "Backend",
+    "description": "Twórz nowoczesne aplikacje z wleci-core. Potężna platforma backend stworzona z myślą o developerach, która skaluje się wraz z Twoimi potrzebami. Bazy danych w czasie rzeczywistym, uwierzytelnianie i funkcje chmurowe - wszystko w jednym miejscu.",
+    "start_building": "Zacznij Budować Za Darmo",
+    "view_docs": "Zobacz Dokumentację",
+    "features": {
+      "postgresql": {
+        "label": "PostgreSQL",
+        "desc": "Potężna Baza"
+      },
+      "realtime": {
+        "label": "Czas rzeczywisty",
+        "desc": "Aktualizacje na żywo"
+      },
+      "secure": {
+        "label": "Bezpieczne",
+        "desc": "Klasa Enterprise"
+      }
+    }
+  },
+  "navbar": {
+    "features": "Funkcje",
+    "pricing": "Cennik",
+    "docs": "Dokumentacja",
+    "community": "Społeczność",
+    "sign_in": "Zaloguj się",
+    "get_started": "Rozpocznij"
+  },
+  "loading": {
+    "title": "Ładowanie wleci-core",
+    "subtitle": "Przygotowywanie platformy backend..."
+  },
+  "register": {
+    "welcome_title": "Dołącz do",
+    "welcome_subtitle": "Przyszłości Backend",
+    "welcome_description": "Tysiące developerów już buduje z wleci-core. Dołącz do społeczności, która tworzy następną generację aplikacji.",
+    "form_title": "Utwórz konto",
+    "form_subtitle": "Zacznij budować za darmo już dziś",
+    "name_label": "Nazwa użytkownika",
+    "name_placeholder": "jankowalski",
+    "email_label": "Adres email",
+    "email_placeholder": "twoj@email.com",
+    "password_label": "Hasło",
+    "password_placeholder": "Utwórz bezpieczne hasło",
+    "confirm_password_label": "Potwierdź hasło",
+    "confirm_password_placeholder": "Potwierdź swoje hasło",
+    "submit_button": "Utwórz konto",
+    "login_text": "Masz już konto?",
+    "login_link": "Zaloguj się",
+    "features": {
+      "instant_setup": "Natychmiastowa konfiguracja",
+      "realtime_db": "Baza danych w czasie rzeczywistym",
+      "auth_ready": "Gotowe uwierzytelnianie",
+      "cloud_functions": "Funkcje chmurowe"
+    },
+    "oauth": {
+      "google": "Kontynuuj z Google",
+      "github": "Kontynuuj z GitHub",
+      "divider": "lub"
+    },
+    "terms_checkbox": "Akceptuję",
+    "terms_link": "regulamin serwisu",
+    "terms_and": "oraz",
+    "privacy_link": "politykę prywatności"
+  },
+  "unauthorized": {
+    "title": "401",
+    "heading": "Brak autoryzacji",
+    "description": "Musisz się zalogować, aby uzyskać dostęp do tej strony.",
+    "login_button": "Zaloguj się",
+    "home_link": "Powrót do strony głównej"
+  },
+  "forbidden": {
+    "title": "403",
+    "heading": "Brak dostępu",
+    "description": "Nie masz uprawnień do przeglądania tej strony. Skontaktuj się z administratorem, jeśli uważasz, że to błąd.",
+    "dashboard_button": "Przejdź do panelu",
+    "home_link": "Powrót do strony głównej"
+  },
+  "not_found": {
+    "title": "404",
+    "heading": "Strona nie znaleziona",
+    "description": "Przepraszamy, ale strona której szukasz nie istnieje lub została przeniesiona.",
+    "home_button": "Powrót do strony głównej",
+    "back_button": "Wróć do poprzedniej strony"
+  },
+  "internal_server_error": {
+    "title": "500",
+    "heading": "Błąd serwera",
+    "description": "Wystąpił nieoczekiwany błąd serwera. Nasz zespół został powiadomiony i pracuje nad rozwiązaniem problemu.",
+    "retry_button": "Spróbuj ponownie",
+    "home_button": "Powrót do strony głównej",
+    "contact_info": "Jeśli problem się powtarza, skontaktuj się z naszym zespołem"
+  },
+  "maintenance": {
+    "heading": "Przerwa techniczna",
+    "description": "Przeprowadzamy obecnie prace konserwacyjne w celu poprawy jakości naszych usług. Serwis będzie niedostępny przez krótki czas.",
+    "estimated_time": "Szacowany czas zakończenia:",
+    "duration": "około 30 minut",
+    "check_again": "Sprawdź ponownie",
+    "apology": "Przepraszamy za niedogodności",
+    "contact_text": "W przypadku pilnych spraw skontaktuj się z nami:",
+    "contact_email": "support@wleci-core.com"
+  },
+  "login": {
+    "welcome_title": "Witaj z powrotem w",
+    "welcome_subtitle": "wleci-core",
+    "welcome_description": "Zaloguj się do swojego konta i kontynuuj budowanie niesamowitych aplikacji z najpotężniejszą platformą backend.",
+    "form_title": "Zaloguj się",
+    "form_subtitle": "Wprowadź swoje dane aby kontynuować",
+    "email_label": "Adres email",
+    "email_placeholder": "twoj@email.com",
+    "password_label": "Hasło",
+    "password_placeholder": "Wprowadź swoje hasło",
+    "forgot_password": "Zapomniałeś hasła?",
+    "submit_button": "Zaloguj się",
+    "register_text": "Nie masz konta?",
+    "register_link": "Zarejestruj się",
+    "oauth": {
+      "google": "Zaloguj się z Google",
+      "github": "Zaloguj się z GitHub",
+      "divider": "lub"
+    }
+  }
 }
